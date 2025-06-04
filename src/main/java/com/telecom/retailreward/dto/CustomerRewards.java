@@ -1,7 +1,9 @@
-package com.telecom.retailreward.model;
+package com.telecom.retailreward.dto;
 
 import java.util.List;
 import java.util.Map;
+
+import com.telecom.retailreward.model.TransactionDetail;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

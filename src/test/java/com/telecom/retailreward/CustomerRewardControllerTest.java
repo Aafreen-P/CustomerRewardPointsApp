@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.telecom.retailreward.model.CustomerRewards;
+import com.telecom.retailreward.dto.CustomerRewards;
 import com.telecom.retailreward.model.CustomerTransaction;
 import com.telecom.retailreward.rest.CustomerRewardController;
 import com.telecom.retailreward.service.CustomerRewardService;

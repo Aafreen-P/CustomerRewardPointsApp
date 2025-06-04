@@ -9,7 +9,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-import com.telecom.retailreward.model.CustomerRewards;
+
+import com.telecom.retailreward.dto.CustomerRewards;
 import com.telecom.retailreward.model.CustomerTransaction;
 import com.telecom.retailreward.model.TransactionDetail;
 

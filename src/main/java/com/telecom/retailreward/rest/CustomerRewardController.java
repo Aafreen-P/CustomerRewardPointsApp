@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
-import com.telecom.retailreward.model.CustomerRewards;
+import com.telecom.retailreward.dto.CustomerRewards;
 import com.telecom.retailreward.model.CustomerTransaction;
 import com.telecom.retailreward.service.CustomerRewardService;
 

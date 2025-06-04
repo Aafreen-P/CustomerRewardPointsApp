@@ -15,7 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import com.telecom.retailreward.model.CustomerRewards;
+
+import com.telecom.retailreward.dto.CustomerRewards;
 import com.telecom.retailreward.model.CustomerTransaction;
 import com.telecom.retailreward.service.CustomerRewardService;
 
