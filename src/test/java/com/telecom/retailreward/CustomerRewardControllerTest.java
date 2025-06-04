@@ -28,46 +28,57 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(CustomerRewardController.class)
 public class CustomerRewardControllerTest {
 
-	@Autowired
-	private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-	@MockBean
-	private CustomerRewardService customerRewardService;
+    @MockBean
+    private CustomerRewardService customerRewardService;
 
-	@Autowired
-	private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-	@Test
-	void testGetCustomerRewardPointsSummary() throws Exception {
-		// Prepare mock response
-		List<CustomerRewards> mockRewards = Arrays.asList(new CustomerRewards("cust1", null, 100, null),
-				new CustomerRewards("cust2", null, 150, null));
+    @Test
+    void testGetCustomerRewardPointsSummary() throws Exception {
+        // Prepare mock response
+        List<CustomerRewards> mockRewards = Arrays.asList(
+                new CustomerRewards("cust1", null, 100, null),
+                new CustomerRewards("cust2", null, 150, null)
+        );
 
-		given(customerRewardService.getCustFinalRewardPointList("2023-01-01", "2023-12-31")).willReturn(mockRewards);
+        // Match the exact input parameters as in the request
+        given(customerRewardService.getCustFinalRewardPointList(
+                LocalDate.of(2023, 1, 1), LocalDate.of(2023, 12, 31)))
+                .willReturn(mockRewards);
 
-		mockMvc.perform(get("/api/customerRewards/getCustomerRewardPoints").param("startDate", "2023-01-01")
-				.param("endDate", "2023-12-31")).andExpect(status().isOk())
-				.andExpect(content().json(objectMapper.writeValueAsString(mockRewards)));
-	}
+        mockMvc.perform(get("/api/customerRewards/getCustomerRewardPoints")
+                        .param("startDate", "2023-01-01")
+                        .param("endDate", "2023-12-31"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(mockRewards)));
+    }
 
-	@Test
-	void testAddTransaction_ValidInput() throws Exception {
-		CustomerTransaction transaction = new CustomerTransaction("Cust1", 250.0, LocalDate.now());
+    @Test
+    void testAddTransaction_ValidInput() throws Exception {
+        CustomerTransaction transaction = new CustomerTransaction("Cust1", 250.0, LocalDate.now());
 
-		doNothing().when(customerRewardService).addTransaction(any(CustomerTransaction.class));
+        doNothing().when(customerRewardService).addTransaction(any(CustomerTransaction.class));
 
-		mockMvc.perform(post("/api/customerRewards/addCustomerTransactions").contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(transaction))).andExpect(status().isOk())
-				.andExpect(content().string("Transaction added successfully"));
-	}
+        mockMvc.perform(post("/api/customerRewards/addCustomerTransactions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(transaction)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Transaction added successfully"));
+    }
 
-	@Test
-	void testAddTransaction_InvalidInput() throws Exception {
-		// Example invalid transaction: missing required fields or invalid data
-		CustomerTransaction invalidTransaction = new CustomerTransaction(); // empty or invalid data
+    @Test
+    void testAddTransaction_InvalidInput() throws Exception {
+        // Invalid transaction: missing required fields
+        CustomerTransaction invalidTransaction = new CustomerTransaction(); // all fields null/blank
 
-		mockMvc.perform(post("/api/customerRewards/addCustomerTransactions").contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(invalidTransaction))).andExpect(status().isBadRequest())
-				.andExpect(content().string("Invalid input data"));
-	}
+        mockMvc.perform(post("/api/customerRewards/addCustomerTransactions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(invalidTransaction)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Invalid input data"));
+    }
 }

@@ -18,15 +18,9 @@ public class CustomerRewardService {
 
 	private final List<CustomerTransaction> customerTansactions = new ArrayList<>();
 
-	public List<CustomerRewards> getCustFinalRewardPointList(String startDate, String endDate) {
+	public List<CustomerRewards> getCustFinalRewardPointList(LocalDate startDate, LocalDate endDate) {
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate startDt;
-		LocalDate endDt;
-		startDt = LocalDate.parse(startDate, formatter);
-		endDt = LocalDate.parse(endDate, formatter);
-
-		if (startDt.isAfter(endDt)) {
+		if (startDate.isAfter(endDate)) {
 			throw new IllegalArgumentException("Start date must be before end date.");
 		}
 
@@ -38,7 +32,7 @@ public class CustomerRewardService {
 		for (CustomerTransaction tx : customerTansactions) {
 
 			// Skip transactions outside the requested date range
-			if (tx.getDate().isBefore(startDt) || tx.getDate().isAfter(endDt)) {
+			if (tx.getDate().isBefore(startDate) || tx.getDate().isAfter(endDate)) {
 				continue;
 			}
 

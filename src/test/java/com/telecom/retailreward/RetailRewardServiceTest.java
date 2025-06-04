@@ -57,7 +57,7 @@ public class RetailRewardServiceTest {
 
 	@Test
 	public void testCustRewardPointsWithinTime_success() {
-		List<CustomerRewards> summaries = customerRewardService.getCustFinalRewardPointList("2025-02-01", "2025-04-31");
+		List<CustomerRewards> summaries = customerRewardService.getCustFinalRewardPointList(LocalDate.of(2025,02,01), LocalDate.of(2025,04,30));
 
 		assertEquals(2, summaries.size());
 
@@ -76,7 +76,7 @@ public class RetailRewardServiceTest {
 	@Test
 	void testAsyncRewardPointsCalculation() throws Exception {
 		CompletableFuture<List<CustomerRewards>> future = CompletableFuture.supplyAsync(() -> {
-			return customerRewardService.getCustFinalRewardPointList("2025-01-01", "2025-03-31");
+			return customerRewardService.getCustFinalRewardPointList(LocalDate.of(2025, 1, 1), LocalDate.of(2025, 3, 31));
 		});
 
 		// Wait for result
@@ -89,7 +89,7 @@ public class RetailRewardServiceTest {
 	@Test
 	public void testInvalidDateOrder_ThrowsException() {
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-			customerRewardService.getCustFinalRewardPointList("2025-05-01", "2025-04-30");
+			customerRewardService.getCustFinalRewardPointList(LocalDate.of(2025, 5, 1), LocalDate.of(2025, 4, 30));
 		});
 
 		assertEquals("Start date must be before end date.", exception.getMessage());

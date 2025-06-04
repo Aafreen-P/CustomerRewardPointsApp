@@ -11,6 +11,7 @@ A Spring Boot RESTful API for managing customer transactions and calculating rew
 - [Technology Stack](#technology-stack)
 - [Getting Started](#getting-started)
 - [API Endpoints](#api-endpoints)
+- [Exception Handling](#exception-handling)
 - [Running Tests](#running-tests)
 - [Swagger Documentation](#swagger-documentation)
 - [Contact](#contact)
@@ -144,6 +145,34 @@ Response : Status :200
 Transaction added successfully
 
 ---
+
+##Exception Handling
+
+▶️ Invalid Input / Validation Failures: 
+
+If a client submits an invalid payload (e.g., missing fields, invalid date, etc.), the API returns a structured error response.
+
+🧪 Example: Invalid Date (e.g., 2025-04-31)
+
+```json
+curl -X POST http://localhost:8080/api/customerRewards/addCustomerTransactions \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "customerId": "Cust1",
+        "amount": 100,
+        "date": "2025-04-31"
+      }'
+```
+Response : 
+
+```json
+
+{
+  "status": 500,
+  "message": "Unexpected error: Failed to deserialize java.time.LocalDate: (java.time.format.DateTimeParseException) Text '2025-04-31' could not be parsed: Invalid date 'APRIL 31'",
+  "timestamp": "2025-06-04 00:12:19"
+}
+```
 
 ## Running Tests
 

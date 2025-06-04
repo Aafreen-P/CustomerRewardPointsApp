@@ -1,8 +1,10 @@
 package com.telecom.retailreward.rest;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequestMapping("/api/customerRewards")
 public class CustomerRewardController {
@@ -29,8 +32,8 @@ public class CustomerRewardController {
 
 	@GetMapping("/getCustomerRewardPoints")
     @Operation(summary = "Get customer reward points summary")
-	public ResponseEntity<List<CustomerRewards>> getCustomerRewardPointsSummary(@RequestParam String startDate,
-			@RequestParam String endDate) {
+	public ResponseEntity<List<CustomerRewards>> getCustomerRewardPointsSummary( @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+	        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
 
 		List<CustomerRewards> customerRewardList = customerRewardService.getCustFinalRewardPointList(startDate,
 				endDate);
